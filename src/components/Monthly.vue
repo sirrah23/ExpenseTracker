@@ -5,38 +5,33 @@
       <BaseInputText v-model="newExpenseName" placeholder="Expense Name"></BaseInputText>
       <BaseInputText v-model="newExpenseAmount" placeholder="Expense Amount"></BaseInputText>
     </form>
-    <ul id="expense-list">
+    <ul id="expense-list-monthly">
       <li class="expense" v-for="expense in expenses">
         <span class="expense-name">{{ expense.name }}:</span> 
         <span class="expense=price">{{ fmtPrice(expense) }}</span>
       </li>
     </ul>
+    <a href="/#/daily">Daily</a>
   </div>
 </template>
 
 <script>
 import BaseInputText from "./BaseInputText.vue"
+import API from "../api.js"
+import Utils from "../utils.js"
 
 export default {
   components:{
     BaseInputText
   },
+  mounted(){
+    API.getMonthly().then((d) => this.expenses = d);
+  },
   data() {
     return {
       newExpenseName: "",
       newExpenseAmount: "",
-      expenses: [
-        {
-          name: "Digital Ocean",
-          dollars: 5,
-          cents: 0,
-        },
-        {
-          name: "CrunchyRoll",
-          dollars: 6,
-          cents: 50,
-        }
-      ]
+      expenses: []
     };
   },
   methods: {
@@ -50,8 +45,8 @@ export default {
       this.newExpenseName = "";
       this.newExpenseAmount = "";
     },
-    fmtPrice({dollars, cents}){
-      return `\$${dollars}.${cents.toString().padStart(2, '0')}`
+    fmtPrice(val){
+      return Utils.fmtPrice(val)
     }
   }
 };
