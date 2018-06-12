@@ -3,13 +3,14 @@
     <h1>Monthly Expenses</h1>
     <form @keydown.enter="addExpense">
       <BaseInputText v-model="newExpenseName" placeholder="Expense Name"></BaseInputText>
-      <BaseInputText v-model="newExpenseAmount" placeholder="Expense Amount"></BaseInputText>
+      <BaseInputNumber v-model="newExpenseAmount" placeholder="Expense Amount"></BaseInputNumber>
     </form>
     <ul id="expense-list-monthly">
-      <li class="expense" v-for="expense in expenses">
-        <span class="expense-name">{{ expense.name }}:</span> 
-        <span class="expense=price">{{ fmtPrice(expense) }}</span>
-      </li>
+      <ExpenseItem 
+        v-for="expense in expenses"
+        :expense="expense"
+        @remove="removeExpense"
+      />
     </ul>
     <a href="/#/daily">Daily</a>
   </div>
@@ -17,12 +18,15 @@
 
 <script>
 import BaseInputText from "./BaseInputText.vue"
+import BaseInputNumber from "./BaseInputNumber.vue"
+import ExpenseItem from "./ExpenseItem.vue"
 import API from "../api.js"
-import Utils from "../utils.js"
 
 export default {
   components:{
-    BaseInputText
+    BaseInputText,
+    BaseInputNumber,
+    ExpenseItem
   },
   mounted(){
     API.getMonthly().then((d) => this.expenses = d);
@@ -45,8 +49,8 @@ export default {
       this.newExpenseName = "";
       this.newExpenseAmount = "";
     },
-    fmtPrice(val){
-      return Utils.fmtPrice(val)
+    removeExpense(name){
+      this.expenses = this.expenses.filter(e => e.name !== name);
     }
   }
 };
@@ -55,12 +59,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  #expense-list{
-    list-style-type: none;
-  }
+#expense-list-monthly{
+  list-style-type: none;
+}
 
-  .expense-name{
-    width: 150px;
-  }
+.expense-name{
+  width: 150px;
+}
 
 </style>
