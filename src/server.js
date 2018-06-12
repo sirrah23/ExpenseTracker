@@ -14,13 +14,11 @@ app.get('/monthly', (req, res) => {
         [
             {
                 name: "Service A",
-                dollars: 5,
-                cents: 0.
+                cents: 500,
             },
             {
                 name: "Service B",
-                dollars: 6,
-                cents: 15,
+                cents: 615,
             }
         ]
     )}
@@ -33,12 +31,10 @@ app.get('/daily', (req, res) => {
         [
             {
                 name: "Service A",
-                dollars: 0,
                 cents: 500/30 //Cents / days in month
             },
             {
                 name: "Service B",
-                dollars: 0,
                 cents: 615/30, //Cents / days in month
             }
         ]

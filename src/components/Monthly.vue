@@ -21,6 +21,7 @@ import BaseInputText from "./BaseInputText.vue"
 import BaseInputNumber from "./BaseInputNumber.vue"
 import ExpenseItem from "./ExpenseItem.vue"
 import API from "../api.js"
+import Utils from "../utils.js"
 
 export default {
   components:{
@@ -41,16 +42,23 @@ export default {
   methods: {
     addExpense(){
       //TODO: Add validations and cleanup
+      const cents = Utils.amountToCents(this.newExpenseAmount);
+      console.log(cents);
+      if (isNaN(cents)){
+        return;
+      }
       this.expenses.push({
         name: this.newExpenseName,
-        dollars: this.newExpenseAmount.split('.')[0],
-        cents: this.newExpenseAmount.split('.')[1]
-      })
-      this.newExpenseName = "";
-      this.newExpenseAmount = "";
+        cents
+      });
+      this.clearInput();
     },
     removeExpense(name){
       this.expenses = this.expenses.filter(e => e.name !== name);
+    },
+    clearInput(){
+      this.newExpenseName = "";
+      this.newExpenseAmount = "";
     }
   }
 };
