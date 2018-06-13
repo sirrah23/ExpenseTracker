@@ -41,25 +41,34 @@ export default {
   },
   methods: {
     addExpense(){
-      //TODO: Add validations and cleanup
+      const name = this.newExpenseName;
       const cents = Utils.amountToCents(this.newExpenseAmount);
-      console.log(cents);
+
       if (isNaN(cents)){
         return;
       }
-      this.expenses.push({
-        name: this.newExpenseName,
-        cents
-      });
-      this.clearInput();
+
+      API.postMonthly(name, cents)
+      .then(()=> {
+        this.expenses.push({
+          name: this.newExpenseName,
+          cents
+        });
+        this.clearInput();
+      })
+      .catch(e => console.error(e));
+
     },
+
     removeExpense(name){
       this.expenses = this.expenses.filter(e => e.name !== name);
     },
+
     clearInput(){
       this.newExpenseName = "";
       this.newExpenseAmount = "";
     }
+
   }
 };
 </script>

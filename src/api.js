@@ -16,10 +16,16 @@ export default {
       return req.data
     })
   },
+
   getMonthly() {
     return this.execute('get', '/monthly');
   },
+
   getDaily(){
     return this.execute('get', '/daily');
+  },
+
+  postMonthly(name, cents){
+    return this.execute('post', '/monthly', {name, cents});
   }
 }
