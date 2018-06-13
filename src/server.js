@@ -7,6 +7,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const db = require('./db.js');
+const dinero = require('./dinero.js');
 
 app.get('/monthly', (req, res) => {
     console.log("GET request -- /monthly");
@@ -27,11 +28,17 @@ app.post('/monthly', (req, res) => {
     })
 });
 
-//TODO: Convert to daily price list
 app.get('/daily', (req, res) => {
     console.log("GET request -- /daily");
     db.getAllExpense()
-        .then(d => res.json(d));
+        .then(expense => {
+            const daily = expense.map((i) => {
+                const converted = Object.assign({}, i)
+                converted.cents = dinero.monthlyToDaily(converted.cents)
+                return converted;
+            })
+            res.json(daily);
+        });
 });
 
 app.listen(8081, () => {
