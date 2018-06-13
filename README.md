@@ -1,6 +1,6 @@
-# spending-tracker
+# Expense Tracker
 
-> Convert monthly spending to daily spending
+> Break down monthly spending.
 
 ## Build Setup
 
