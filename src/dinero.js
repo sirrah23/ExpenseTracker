@@ -1,8 +1,8 @@
 module.exports = {
 
     currentDay(){
-        //TODO: Unhardcode this
-        return 24;
+        const now = new Date()
+        return now.getDate(); 
     },
 
     daysInCurrentMonth(){
