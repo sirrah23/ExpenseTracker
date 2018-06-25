@@ -41,6 +41,19 @@ app.get('/daily', (req, res) => {
         });
 });
 
+app.get('/aggregate', (req, res) => {
+    console.log("GET request -- /aggregate");
+    db.getAllExpense()
+        .then(expense => {
+            const daily = expense.map((i) => {
+                const converted = Object.assign({}, i)
+                converted.cents = dinero.monthlyToCurr(converted.cents)
+                return converted;
+            })
+            res.json(daily);
+        });
+});
+
 app.listen(8081, () => {
      console.log("Listening on port 8081!")
 });

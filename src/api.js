@@ -25,6 +25,10 @@ export default {
     return this.execute('get', '/daily');
   },
 
+  getAggregate(){
+    return this.execute('get', '/aggregate');
+  },
+
   postMonthly(name, cents){
     return this.execute('post', '/monthly', {name, cents});
   }

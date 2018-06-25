@@ -1,14 +1,14 @@
 <template>
-  <div id="daily">
-    <h1>Daily Expenses</h1>
-    <ul id="expense-list-daily">
+  <div id="aggregate">
+    <h1>Aggregated Expenses</h1>
+    <ul id="expense-list-aggregate">
         <ExpenseItem 
             v-for="expense in expenses"
             :expense="expense"
             @remove="removeExpense"
         />
     </ul>
-    <a href="#/aggregate">Aggregate</a>
+    <a href="#/">Monthly</a>
   </div>
 </template>
 
@@ -22,7 +22,7 @@ export default {
         ExpenseItem
     },
     mounted(){
-        API.getDaily().then((d) => this.expenses = d);
+        API.getAggregate().then((d) => this.expenses = d);
     },
     data(){
         return{
